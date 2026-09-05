@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>For You, My Love ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #1a0b2e;
+      --bg-mid: #2d1b4e;
+      --accent: #ff6b9d;
+      --accent-soft: #ff9ec4;
+      --gold: #ffd6a5;
+      --text: #fff5f8;
+      --card-bg: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Animated background */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(160deg, #1a0b2e 0%, #2d1b4e 40%, #3d1f5c 70%, #1a0b2e 100%);
+      overflow: hidden;
+    }
+
+    .stars, .hearts-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+
+    .floating-heart {
+      position: absolute;
+      font-size: 14px;
+      opacity: 0.25;
+      animation: floatUp 12s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.4); }
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.2; }
+      100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Main content */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 0 60px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 107, 157, 0.2);
+      border: 1px solid rgba(255, 107, 157, 0.4);
+      color: var(--accent-soft);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+      animation: fadeInDown 1s ease;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 9vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #ff9ec4 50%, #ffd6a5 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .hero .subtitle {
+      font-size: 1.15rem;
+      font-weight: 300;
+      opacity: 0.9;
+      max-width: 320px;
+      margin-bottom: 40px;
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .scroll-hint {
+      animation: bounce 2s infinite;
+      opacity: 0.7;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 70px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      text-align: center;
+      margin-bottom: 28px;
+      color: var(--gold);
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 12px auto 0;
+    }
+
+    /* Message cards */
+    .message-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 28px 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .message-card:active {
+      transform: scale(0.98);
+    }
+
+    .message-card p {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .message-card .emoji {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* Special "I'm here" section */
+    .here-for-you {
+      background: linear-gradient(145deg, rgba(255, 107, 157, 0.15), rgba(255, 214, 165, 0.1));
+      border: 1px solid rgba(255, 107, 157, 0.3);
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .here-for-you::before {
+      content: '♥';
+      position: absolute;
+      font-size: 120px;
+      opacity: 0.06;
+      top: -20px;
+      right: -10px;
+      transform: rotate(15deg);
+    }
+
+    .here-for-you h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 18px;
+      color: var(--accent-soft);
+    }
+
+    .here-for-you p {
+      font-size: 1.1rem;
+      font-weight: 300;
+      margin-bottom: 12px;
+    }
+
+    .here-for-you .big-line {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-style: italic;
+      color: var(--gold);
+      margin: 20px 0 10px;
+    }
+
+    /* Interactive love notes */
+    .notes-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .note {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .note.closed .note-content {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .note.open .note-content {
+      opacity: 1;
+      max-height: 200px;
+      margin-top: 12px;
+    }
+
+    .note-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .note-header span {
+      font-size: 1.3rem;
+    }
+
+    .note.open {
+      border-color: rgba(255, 107, 157, 0.45);
+      background: rgba(255, 107, 157, 0.12);
+    }
+
+    /* Virtual hug button */
+    .hug-section {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .hug-btn {
+      background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+      color: white;
+      border: none;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      padding: 18px 40px;
+      border-radius: 60px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hug-btn:active {
+      transform: scale(0.95);
+    }
+
+    .hug-btn.sent {
+      background: linear-gradient(135deg, #a8e6cf, #88d8a0);
+      box-shadow: 0 10px 30px rgba(136, 216, 160, 0.4);
+    }
+
+    .hug-message {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.5s ease;
+    }
+
+    .hug-message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Promise list */
+    .promises {
+      list-style: none;
+    }
+
+    .promises li {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .promises li::before {
+      content: '♡';
+      color: var(--accent);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Final message */
+    .final {
+      text-align: center;
+      padding: 40px 10px 20px;
+    }
+
+    .final h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ff9ec4, #ffd6a5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .final p {
+      font-size: 1.1rem;
+      font-weight: 300;
+      max-width: 340px;
+      margin: 0 auto 24px;
+    }
+
+    .signature {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      color: var(--accent-soft);
+      margin-top: 30px;
+    }
+
+    /* Floating hearts on hug */
+    .burst-heart {
+      position: fixed;
+      font-size: 24px;
+      pointer-events: none;
+      z-index: 100;
+      animation: burst 1.4s ease-out forwards;
+    }
+
+    @keyframes burst {
+      0% { transform: translate(0, 0) scale(0.5); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(1.2); opacity: 0; }
+    }
+
+    /* Music toggle */
+    .music-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 20px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255, 107, 157, 0.25);
+      border: 1px solid rgba(255, 107, 157, 0.5);
+      color: white;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+    }
+
+    .music-btn.playing {
+      background: rgba(255, 107, 157, 0.5);
+      box-shadow: 0 0 20px rgba(255, 107, 157, 0.4);
+    }
+
+    /* Confetti / birthday particles */
+    .confetti {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      top: -10px;
+      z-index: 90;
+      animation: confettiFall linear forwards;
+    }
+
+    @keyframes confettiFall {
+      to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg">
+    <div class="stars" id="stars"></div>
+    <div class="hearts-bg" id="heartsBg"></div>
+  </div>
+
+  <div class="container">
+    <!-- HERO -->
+    <section class="hero visible">
+      <div class="hero-badge">Happy Birthday My Love</div>
+      <h1>You are<br>never alone</h1>
+      <p class="subtitle">Even across the distance, my heart stays right beside yours — always.</p>
+      <div class="scroll-hint">↓ scroll with love ↓</div>
+    </section>
+
+    <!-- OPENING MESSAGE -->
+    <section id="opening">
+      <div class="message-card">
+        <span class="emoji">💌</span>
+        <p>My dearest, on your special day I want you to feel every bit of the love I carry for you. Even though we are far apart right now, please know that you are the first thought in my morning and the last wish in my night.</p>
+      </div>
+    </section>
+
+    <!-- I'M HERE FOR YOU -->
+    <section id="here">
+      <div class="here-for-you">
+        <h2>I'm right here with you</h2>
+        <p>I know things feel heavy right now.</p>
+        <p>I know some days are harder than others.</p>
+        <p class="big-line">You don't have to carry it alone.</p>
+        <p>Whenever the world feels too much, close your eyes and remember — I am holding your hand from here. I am proud of you. I believe in you. And I will never leave your side, no matter the distance.</p>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE LOVE NOTES -->
+    <section id="notes">
+      <h2 class="section-title">Open these with your heart</h2>
+      <div class="notes-grid">
+        <div class="note closed" onclick="toggleNote(this)">
+          <div class="note-header">
+            <span>🌙</span>
+            <span>When the nights feel long</span>
+          </div>
+          <div class="note-content">
+            <p>I am thinking of you. You can rest knowing someone out there loves you more than words can hold. Sleep peacefully, my love.</p>
+          </div>
+        </div>
+
+        <div class="note closed" onclick="toggleNote(this)">
+          <div class="note-header">
+            <span>🌧️</span>
+            <span>On the hard days</span>
+          </div>
+          <div class="note-content">
+            <p>It's okay to not be okay. Cry if you need to. Feel everything. Then remember that tomorrow is still coming, and so is my love — steady and waiting for you.</p>
+          </div>
+        </div>
+
+        <div class="note closed" onclick="toggleNote(this)">
+          <div class="note-header">
+            <span>✨</span>
+            <span>A little reminder</span>
+          </div>
+          <div class="note-content">
+            <p>You are stronger than you feel right now. You have already survived so much. I see your courage even when you don't. I am so proud to love you.</p>
+          </div>
+        </div>
+
+        <div class="note closed" onclick="toggleNote(this)">
+          <div class="note-header">
+            <span>🏡</span>
+            <span>Home is where you are</span>
+          </div>
+          <div class="note-content">
+            <p>Distance is just geography. My heart has already chosen its home — and it is you. Always you.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIRTUAL HUG -->
+    <section class="hug-section" id="hug">
+      <h2 class="section-title">Need a hug?</h2>
+      <button class="hug-btn" id="hugBtn" onclick="sendHug()">
+        Send me a virtual hug 🤍
+      </button>
+      <p class="hug-message" id="hugMsg">I just wrapped my arms around you from miles away. Feel that warmth? That's me. I'm here.</p>
+    </section>
+
+    <!-- PROMISES -->
+    <section id="promises">
+      <h2 class="section-title">My promises to you</h2>
+      <ul class="promises">
+        <li>I will always listen, even on the quiet days.</li>
+        <li>I will remind you of your light when you forget it.</li>
+        <li>I will stay — through every storm and every sunrise.</li>
+        <li>I will keep choosing you, every single day.</li>
+        <li>You will never have to face anything completely alone again.</li>
+      </ul>
+    </section>
+
+    <!-- FINAL -->
+    <section class="final" id="final">
+      <h2>Happy Birthday, my love</h2>
+      <p>May this year bring you softness, strength, and moments that make your heart smile. I am so lucky to love you — and even luckier that you let me.</p>
+      <p>Wherever you are reading this, know that right now I am smiling because you exist.</p>
+      <div class="signature">Forever yours,<br>with all my heart ❤️</div>
+    </section>
+  </div>
+
+  <!-- Audio player (hidden) -->
+  <audio id="bgMusic" loop preload="auto">
+    <!-- Put your song file here. Rename your song to "song.mp3" and keep it in the same folder -->
+    <source src="song.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Play / Pause music">🎵</button>
+
+  <script>
+    // Create stars
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 60; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.animationDelay = Math.random() * 3 + 's';
+      star.style.width = star.style.height = (Math.random() * 2 + 1) + 'px';
+      starsContainer.appendChild(star);
+    }
+
+    // Floating hearts background
+    const heartsBg = document.getElementById('heartsBg');
+    function createFloatingHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.textContent = ['♥', '♡', '💗', '💖'][Math.floor(Math.random() * 4)];
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.fontSize = (Math.random() * 12 + 10) + 'px';
+      heart.style.animationDuration = (Math.random() * 8 + 10) + 's';
+      heart.style.animationDelay = Math.random() * 5 + 's';
+      heartsBg.appendChild(heart);
+      setTimeout(() => heart.remove(), 18000);
+    }
+    setInterval(createFloatingHeart, 1800);
+    for (let i = 0; i < 6; i++) setTimeout(createFloatingHeart, i * 400);
+
+    // Scroll reveal
+    const sections = document.querySelectorAll('section:not(.hero)');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+    sections.forEach(sec => observer.observe(sec));
+
+    // Toggle notes
+    function toggleNote(el) {
+      el.classList.toggle('closed');
+      el.classList.toggle('open');
+    }
+
+    // Virtual hug
+    function sendHug() {
+      const btn = document.getElementById('hugBtn');
+      const msg = document.getElementById('hugMsg');
+      
+      if (btn.classList.contains('sent')) return;
+      
+      btn.classList.add('sent');
+      btn.textContent = 'Hug sent with love 🤍';
+      msg.classList.add('show');
+
+      // Burst hearts
+      for (let i = 0; i < 18; i++) {
+        setTimeout(() => {
+          const h = document.createElement('div');
+          h.className = 'burst-heart';
+          h.textContent = ['💗', '💖', '❤️', '🤍', '💕'][Math.floor(Math.random() * 5)];
+          h.style.left = (40 + Math.random() * 20) + 'vw';
+          h.style.top = '60%';
+          h.style.setProperty('--tx', (Math.random() * 200 - 100) + 'px');
+          h.style.setProperty('--ty', (Math.random() * -180 - 40) + 'px');
+          document.body.appendChild(h);
+          setTimeout(() => h.remove(), 1500);
+        }, i * 60);
+      }
+
+      // Small confetti
+      createConfetti();
+    }
+
+    function createConfetti() {
+      const colors = ['#ff6b9d', '#ff9ec4', '#ffd6a5', '#a8e6cf', '#ffffff'];
+      for (let i = 0; i < 40; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        c.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+        c.style.animationDelay = Math.random() * 0.8 + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4500);
+      }
+    }
+
+    // ========== MUSIC PLAYER ==========
+    const music = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    let isPlaying = false;
+
+    // Set volume a bit softer so it feels romantic
+    music.volume = 0.55;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        music.pause();
+        musicBtn.classList.remove('playing');
+        musicBtn.textContent = '🎵';
+        isPlaying = false;
+      } else {
+        // Try to play
+        const playPromise = music.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            musicBtn.classList.add('playing');
+            musicBtn.textContent = '🎶';
+            isPlaying = true;
+          }).catch(error => {
+            // Autoplay was blocked - show a small message
+            alert("Please tap the music button again to play the song 🎵\n(Phones sometimes block auto-play)");
+            console.log("Playback prevented:", error);
+          });
+        }
+      }
+    }
+
+    // When song ends (even though loop is on, just in case)
+    music.addEventListener('ended', () => {
+      musicBtn.classList.remove('playing');
+      musicBtn.textContent = '🎵';
+      isPlaying = false;
+    });
+
+    // Initial confetti after a short delay for birthday feel
+    setTimeout(createConfetti, 1200);
+  </script>
+</body>
+</html>
+
